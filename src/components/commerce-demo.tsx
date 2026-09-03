@@ -25,6 +25,7 @@ import {
   Users,
   X,
 } from "lucide-react";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { money, orders, products, sales, type OrderStatus } from "@/data/mock-data";
 
@@ -99,6 +100,13 @@ export function CommerceDemo() {
           <div className="page-heading"><div><p>{heading.eyebrow}</p><h1>{heading.title}</h1><span>{heading.description}</span></div><select value={period} onChange={(e) => setPeriod(e.target.value)} aria-label="Período"><option>Últimos 30 días</option><option>Esta semana</option><option>Este trimestre</option></select></div>
           {active === "Resumen" ? <Dashboard query={query} ordersList={filteredOrders} /> : <ModuleView active={active} query={query} />}
         </section>
+        <footer className="brand-footer">
+          <div>
+            <p>Una demo conceptual creada por</p>
+            <span>Diseño y desarrollo de productos digitales pensados para negocios reales.</span>
+          </div>
+          <Image src="/anduril-tech-logo.svg" alt="Anduril Tech" width={109} height={79} priority />
+        </footer>
       </main>
       {toast && <div className="toast" role="status"><span><Check size={16} /></span><div><strong>Venta iniciada</strong><small>El flujo está listo para completar.</small></div></div>}
     </div>
