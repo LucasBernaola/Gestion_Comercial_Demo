@@ -1,6 +1,6 @@
-﻿# Nexo — Gestión comercial
+﻿# Casa Olivia — Gestión comercial
 
-Demo comercial de Anduril Tech para Casa Olivia, una tienda ficticia de decoración. Reúne ventas, clientes, catálogo, inventario y reportes con datos de septiembre de 2026 y moneda ARS.
+Demo de un sistema de gestión a medida desarrollado por Anduril Tech para Casa Olivia, una tienda ficticia de decoración. Reúne ventas, clientes, catálogo, inventario y reportes con datos de septiembre de 2026 y moneda ARS.
 
 ## Recorridos disponibles
 
@@ -15,7 +15,7 @@ Los cambios viven en memoria y se reinician al recargar. No hay cobros, envíos,
 
 ## Diseño y accesibilidad
 
-CSS mobile first: dos columnas de indicadores, pedidos como tarjetas en teléfono, navegación modal compacta y grillas ampliadas en tablet y desktop. Se mantiene la identidad Nexo, con superficies claras, azul para acciones y colores semánticos acompañados de texto. Fuentes del sistema, sin solicitudes externas ni dependencias nuevas.
+CSS mobile first: dos columnas de indicadores, pedidos como tarjetas en teléfono, navegación modal compacta y grillas ampliadas en tablet y desktop. La identidad única es Casa Olivia, con superficies claras, azul para acciones y colores semánticos acompañados de texto. Fuentes del sistema, sin solicitudes externas ni dependencias nuevas.
 
 Los diálogos nativos contienen el foco, admiten Escape y devuelven el foco al cerrar. Hay enlace para saltar al contenido, etiquetas en formularios, estados vacíos, mensajes de éxito, botones deshabilitados y respeto por movimiento reducido.
 

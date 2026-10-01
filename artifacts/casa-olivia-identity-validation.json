@@ -1,0 +1,62 @@
+[
+  {
+    "width": 320,
+    "overflow": false,
+    "brand": "CO\nCasa Olivia\nGestión comercial",
+    "brandFits": true,
+    "oldBrand": false,
+    "title": "Casa Olivia — Gestión comercial"
+  },
+  {
+    "width": 375,
+    "overflow": false,
+    "brand": "CO\nCasa Olivia\nGestión comercial",
+    "brandFits": true,
+    "oldBrand": false,
+    "title": "Casa Olivia — Gestión comercial"
+  },
+  {
+    "width": 390,
+    "overflow": false,
+    "brand": "CO\nCasa Olivia\nGestión comercial",
+    "brandFits": true,
+    "oldBrand": false,
+    "title": "Casa Olivia — Gestión comercial"
+  },
+  {
+    "width": 430,
+    "overflow": false,
+    "brand": "CO\nCasa Olivia\nGestión comercial",
+    "brandFits": true,
+    "oldBrand": false,
+    "title": "Casa Olivia — Gestión comercial"
+  },
+  {
+    "width": 768,
+    "overflow": false,
+    "brand": "CO\nCasa Olivia\nGestión comercial",
+    "brandFits": true,
+    "oldBrand": false,
+    "title": "Casa Olivia — Gestión comercial"
+  },
+  {
+    "width": 1024,
+    "overflow": false,
+    "brand": "CO\nCasa Olivia\nGestión comercial",
+    "brandFits": true,
+    "oldBrand": false,
+    "title": "Casa Olivia — Gestión comercial"
+  },
+  {
+    "width": 1440,
+    "overflow": false,
+    "brand": "CO\nCasa Olivia\nGestión comercial",
+    "brandFits": true,
+    "oldBrand": false,
+    "title": "Casa Olivia — Gestión comercial"
+  },
+  {
+    "help": "Ayuda de Casa Olivia\n\nEl sistema de Casa Olivia reúne ventas, clientes y stock de la tienda. Consultá los pedidos, registrá una venta o revisá qué productos necesitan reposición.\n\nEsta demo usa datos ficticios de septiembre de 2026. Los cambios se mantienen durante esta sesión y se reinician al recargar. No se realizan cobros ni envíos.\n\nVolver a la gestión",
+    "oldBrandInHelp": false
+  }
+]
