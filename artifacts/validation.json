@@ -1,0 +1,249 @@
+[
+  {
+    "width": 320,
+    "page": 305,
+    "viewport": 320,
+    "overflow": []
+  },
+  {
+    "width": 375,
+    "page": 360,
+    "viewport": 375,
+    "overflow": []
+  },
+  {
+    "width": 390,
+    "page": 375,
+    "viewport": 390,
+    "overflow": []
+  },
+  {
+    "width": 430,
+    "page": 415,
+    "viewport": 430,
+    "overflow": []
+  },
+  {
+    "width": 768,
+    "page": 753,
+    "viewport": 768,
+    "overflow": []
+  },
+  {
+    "width": 1024,
+    "page": 1009,
+    "viewport": 1024,
+    "overflow": []
+  },
+  {
+    "width": 1440,
+    "page": 1425,
+    "viewport": 1440,
+    "overflow": []
+  },
+  {
+    "sale": true
+  },
+  {
+    "payment": true
+  },
+  {
+    "module": "Clientes",
+    "heading": "Clientes"
+  },
+  {
+    "module": "Productos",
+    "heading": "Productos"
+  },
+  {
+    "module": "Inventario",
+    "heading": "Inventario"
+  },
+  {
+    "module": "Reportes",
+    "heading": "Reportes"
+  },
+  {
+    "module": "Ventas",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "mobileMenu": true
+  },
+  {
+    "escapeCloses": true,
+    "focusRestored": true,
+    "errors": []
+  }
+]

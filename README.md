@@ -1,30 +1,44 @@
-# Nexo — demo de gestión comercial
+﻿# Nexo — Gestión comercial
 
-Demo conceptual y frontend para el portfolio de Anduril Tech. Usa datos ficticios y no representa a un cliente real.
+Demo comercial de Anduril Tech para Casa Olivia, una tienda ficticia de decoración. Reúne ventas, clientes, catálogo, inventario y reportes con datos de septiembre de 2026 y moneda ARS.
 
-## Decisiones de producto
+## Recorridos disponibles
 
-- **Usuario principal:** dueña/o o responsable administrativo de un comercio pequeño o mediano que hoy trabaja entre planillas, WhatsApp y herramientas separadas.
-- **Problema:** no tiene una visión confiable de ventas, pedidos, clientes y stock; pierde tiempo consolidando información y suele reaccionar tarde.
-- **Funciones esenciales:** resumen ejecutivo, pedidos y estados, búsqueda global, alertas de inventario, clientes, catálogo y reportes.
-- **Navegación:** estructura lateral por dominios (Resumen, Ventas, Clientes, Productos, Inventario y Reportes), con acciones frecuentes siempre visibles.
-- **Pantallas del MVP:** dashboard operativo, listado de ventas y vistas de entrada para los demás dominios.
-- **Recorrido principal:** revisar indicadores → detectar pedidos o stock que requieren atención → abrir el módulo correspondiente → iniciar una venta.
+- Resumen: indicadores calculados, ventas por tramo, pedidos recientes y alertas que llevan al módulo correspondiente.
+- Ventas: búsqueda, filtro por estado y período, detalle y avance de pendiente → pagado → preparando → enviado.
+- Nueva venta: cliente, producto, cantidad y canal; validación de stock, total calculado y actualización de inventario.
+- Clientes: historial agregado y acceso a sus pedidos.
+- Productos e inventario: búsqueda por nombre, SKU y categoría; reposición simulada hasta el doble del stock mínimo.
+- Reportes: ventas por canal y descarga CSV del período seleccionado.
 
-## Estructura técnica
+Los cambios viven en memoria y se reinician al recargar. No hay cobros, envíos, facturación, autenticación ni persistencia real. Los importes de ventas incluyen todos los pedidos; “Por cobrar” incluye solamente los pendientes. Las alertas de stock y cobro corresponden al estado actual, independientemente del período del gráfico.
 
-- Next.js 16 + React 19 + TypeScript estricto.
-- Datos simulados desacoplados en `src/data`.
-- Presentación e interacción en componentes reutilizables.
-- CSS responsive mobile-first en comportamiento: navegación tipo drawer, tablas desplazables y métricas reorganizadas.
+## Diseño y accesibilidad
 
-## MVP y evolución
+CSS mobile first: dos columnas de indicadores, pedidos como tarjetas en teléfono, navegación modal compacta y grillas ampliadas en tablet y desktop. Se mantiene la identidad Nexo, con superficies claras, azul para acciones y colores semánticos acompañados de texto. Fuentes del sistema, sin solicitudes externas ni dependencias nuevas.
 
-El MVP demuestra el tablero, la navegación y el seguimiento de ventas. Una versión comercial sumaría persistencia/API, autenticación y permisos, CRUD completo, movimientos de stock, facturación, integraciones, auditoría y exportación de reportes, definidos según el negocio real.
+Los diálogos nativos contienen el foco, admiten Escape y devuelven el foco al cerrar. Hay enlace para saltar al contenido, etiquetas en formularios, estados vacíos, mensajes de éxito, botones deshabilitados y respeto por movimiento reducido.
 
-## Uso
+## Desarrollo
 
-```bash
+```sh
 pnpm install
 pnpm dev
+pnpm lint
+pnpm typecheck
+pnpm build
 ```
+
+En PowerShell con ejecución de scripts restringida, usar `pnpm.cmd`.
+
+## Capturas comerciales
+
+Usar **Resumen / Septiembre 2026**, sin diálogos abiertos, a 1440 × 900. En teléfono, usar el mismo resumen a 375 px o la vista Ventas para mostrar pedidos en tarjetas. Las capturas de verificación se guardan en `artifacts/`.
+
+## Estructura
+
+- `src/data/mock-data.ts`: pedidos, productos, tipos y formato monetario.
+- `src/components/commerce-demo.tsx`: navegación, vistas y componentes compartidos.
+- `src/app/globals.css`: diseño responsive y estados visuales.
+
+Se conserva Next.js 16, React 19, TypeScript y Lucide. Una implementación para un cliente puede conectar estas vistas a sus reglas comerciales y servicios, sin presentar funciones inexistentes como disponibles.

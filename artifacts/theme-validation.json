@@ -1,0 +1,283 @@
+[
+  {
+    "module": "Resumen",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Resumen",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Resumen",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Resumen",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Resumen",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Resumen",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Resumen",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Ventas",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Clientes",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Productos",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Inventario",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 320,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 375,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 430,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 768,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 1024,
+    "overflow": false
+  },
+  {
+    "module": "Reportes",
+    "width": 1440,
+    "overflow": false
+  },
+  {
+    "contrast": [
+      {
+        "selector": ".nav-item.active",
+        "contrast": 4.95
+      },
+      {
+        "selector": ".metric-0",
+        "contrast": 12.65
+      },
+      {
+        "selector": ".metric-2",
+        "contrast": 13.51
+      },
+      {
+        "selector": ".status-pagado",
+        "contrast": 6.23
+      },
+      {
+        "selector": ".status-pendiente",
+        "contrast": 6.1
+      },
+      {
+        "selector": ".status-preparando",
+        "contrast": 5.87
+      },
+      {
+        "selector": ".status-enviado",
+        "contrast": 5.87
+      },
+      {
+        "selector": ".primary-button",
+        "contrast": 4.95
+      }
+    ]
+  },
+  {
+    "hover": ".order-row",
+    "background": "rgb(229, 237, 255)"
+  },
+  {
+    "focus": ".order-row",
+    "outline": "solid"
+  },
+  {
+    "hover": ".attention-item",
+    "background": "rgb(229, 237, 255)"
+  },
+  {
+    "focus": ".attention-item",
+    "outline": "solid"
+  },
+  {
+    "hover": ".nav-item:not(.active)",
+    "background": "rgb(34, 54, 82)"
+  },
+  {
+    "focus": ".nav-item:not(.active)",
+    "outline": "solid"
+  },
+  {
+    "hover": ".primary-button",
+    "background": "rgb(40, 84, 198)"
+  },
+  {
+    "focus": ".primary-button",
+    "outline": "solid"
+  },
+  {
+    "errors": []
+  }
+]

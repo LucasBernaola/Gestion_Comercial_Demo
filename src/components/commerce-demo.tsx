@@ -1,162 +1,59 @@
 "use client";
 
-import {
-  ArrowDownRight,
-  ArrowRight,
-  ArrowUpRight,
-  BarChart3,
-  Bell,
-  Boxes,
-  Check,
-  ChevronDown,
-  CircleDollarSign,
-  Command,
-  CreditCard,
-  FileText,
-  HelpCircle,
-  LayoutDashboard,
-  Menu,
-  Package,
-  Plus,
-  Search,
-  Settings,
-  ShoppingBag,
-  Sparkles,
-  Users,
-  X,
-} from "lucide-react";
-import Image from "next/image";
-import { useMemo, useState } from "react";
-import { money, orders, products, sales, type OrderStatus } from "@/data/mock-data";
+import { ArrowRight, ArrowUpRight, BarChart3, Boxes, Check, ChevronRight, CircleDollarSign, Download, LayoutDashboard, Menu, Package, Plus, Search, ShoppingBag, Users, X, Lamp, Armchair, SlidersHorizontal, AlertCircle } from "lucide-react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { money, orders as initialOrders, products as initialProducts, type Order, type OrderStatus } from "@/data/mock-data";
 
-const navigation = [
-  { label: "Resumen", icon: LayoutDashboard },
-  { label: "Ventas", icon: ShoppingBag, badge: "8" },
-  { label: "Clientes", icon: Users },
-  { label: "Productos", icon: Package },
-  { label: "Inventario", icon: Boxes, badge: "3" },
-  { label: "Reportes", icon: BarChart3 },
-];
-
-const titles: Record<string, { eyebrow: string; title: string; description: string }> = {
-  Resumen: { eyebrow: "Jueves, 3 de septiembre", title: "Buen día, Valentina", description: "Así viene tu negocio esta semana." },
-  Ventas: { eyebrow: "Operaciones", title: "Ventas", description: "Seguimiento de pedidos y cobros en un solo lugar." },
-  Clientes: { eyebrow: "Relaciones", title: "Clientes", description: "Tu cartera comercial, ordenada y accionable." },
-  Productos: { eyebrow: "Catálogo", title: "Productos", description: "Precios, variantes y disponibilidad actual." },
-  Inventario: { eyebrow: "Control de stock", title: "Inventario", description: "Detectá faltantes antes de perder una venta." },
-  Reportes: { eyebrow: "Rendimiento", title: "Reportes", description: "Indicadores claros para decidir con información." },
-};
-
-function Status({ value }: { value: OrderStatus }) {
-  return <span className={`status status-${value.toLowerCase()}`}><i />{value}</span>;
-}
-
-function Logo() {
-  return <div className="brand" aria-label="Nexo"><span className="brand-mark"><span /></span><span>NEXO</span></div>;
-}
+const navigation = [{ label: "Resumen", icon: LayoutDashboard }, { label: "Ventas", icon: ShoppingBag }, { label: "Clientes", icon: Users }, { label: "Productos", icon: Package }, { label: "Inventario", icon: Boxes }, { label: "Reportes", icon: BarChart3 }];
+const descriptions: Record<string, string> = { Resumen: "Tus ventas, tus pedidos y tu próximo paso. Todo en un lugar.", Ventas: "De la primera consulta a la entrega. Cada pedido bajo control.", Clientes: "Conocé quiénes compran y construí relaciones que duren.", Productos: "Un catálogo ordenado, con precios y disponibilidad al día.", Inventario: "Anticipate a los faltantes y prepará tu próxima reposición.", Reportes: "Entendé de dónde vienen las ventas de tu negocio." };
+const sum = (list: Order[]) => list.reduce((total, item) => total + item.amount, 0);
+function Status({ value }: { value: OrderStatus }) { return <span className={`status status-${value.toLowerCase()}`}><i />{value}</span>; }
+function ProductIcon({ category }: { category: string }) { const Icon = category === "Iluminación" ? Lamp : category === "Mobiliario" ? Armchair : Package; return <div className={`product-image category-${category}`}><Icon size={24} strokeWidth={1.5}/></div>; }
 
 export function CommerceDemo() {
   const [active, setActive] = useState("Resumen");
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [toast, setToast] = useState(false);
-  const [period, setPeriod] = useState("Últimos 30 días");
-  const heading = titles[active];
-  const filteredOrders = useMemo(() => orders.filter((order) => `${order.id} ${order.customer}`.toLowerCase().includes(query.toLowerCase())), [query]);
-
-  const navigate = (label: string) => { setActive(label); setMenuOpen(false); setQuery(""); };
-  const notify = () => { setToast(true); window.setTimeout(() => setToast(false), 2600); };
-
-  return (
-    <div className="app-shell">
-      <div className="demo-ribbon"><Sparkles size={13} /> Demo conceptual · Datos ficticios</div>
-      <aside className={`sidebar ${menuOpen ? "sidebar-open" : ""}`}>
-        <div className="sidebar-top"><Logo /><button className="icon-button close-menu" onClick={() => setMenuOpen(false)} aria-label="Cerrar menú"><X size={20} /></button></div>
-        <nav aria-label="Navegación principal">
-          <p className="nav-label">Espacio de trabajo</p>
-          {navigation.map(({ label, icon: Icon, badge }) => (
-            <button key={label} className={`nav-item ${active === label ? "active" : ""}`} onClick={() => navigate(label)}>
-              <Icon size={18} strokeWidth={1.8} /><span>{label}</span>{badge && <b>{badge}</b>}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-bottom">
-          <button className="nav-item"><HelpCircle size={18} /><span>Ayuda</span></button>
-          <button className="nav-item"><Settings size={18} /><span>Configuración</span></button>
-          <div className="profile"><div className="avatar">VR</div><div><strong>Valentina Ríos</strong><small>Administradora</small></div><ChevronDown size={16} /></div>
-        </div>
-      </aside>
-      {menuOpen && <button className="backdrop" onClick={() => setMenuOpen(false)} aria-label="Cerrar navegación" />}
-
-      <main className="main-content">
-        <header className="topbar">
-          <button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="Abrir menú"><Menu size={21} /></button>
-          <div className="search"><Search size={17} /><input aria-label="Buscar" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar pedidos, clientes..." /><kbd><Command size={11} /> K</kbd></div>
-          <button className="icon-button notification" aria-label="Notificaciones"><Bell size={19} /><i /></button>
-          <button className="primary-button" onClick={notify}><Plus size={17} /> Nueva venta</button>
-        </header>
-
-        <section className="content">
-          <div className="page-heading"><div><p>{heading.eyebrow}</p><h1>{heading.title}</h1><span>{heading.description}</span></div><select value={period} onChange={(e) => setPeriod(e.target.value)} aria-label="Período"><option>Últimos 30 días</option><option>Esta semana</option><option>Este trimestre</option></select></div>
-          {active === "Resumen" ? <Dashboard query={query} ordersList={filteredOrders} /> : <ModuleView active={active} query={query} />}
-        </section>
-        <footer className="brand-footer">
-          <div>
-            <p>Una demo conceptual creada por</p>
-            <span>Diseño y desarrollo de productos digitales pensados para negocios reales.</span>
-          </div>
-          <Image src="/anduril-tech-logo.svg" alt="Anduril Tech" width={109} height={79} priority />
-        </footer>
-      </main>
-      {toast && <div className="toast" role="status"><span><Check size={16} /></span><div><strong>Venta iniciada</strong><small>El flujo está listo para completar.</small></div></div>}
-    </div>
-  );
+  const [period, setPeriod] = useState("month");
+  const [status, setStatus] = useState("Todos");
+  const [orders, setOrders] = useState(initialOrders);
+  const [products, setProducts] = useState(initialProducts);
+  const [modal, setModal] = useState<"sale" | "help" | null>(null);
+  const [selected, setSelected] = useState<Order | null>(null);
+  const [toast, setToast] = useState("");
+  const menuRef = useRef<HTMLButtonElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(""), 4500); return () => clearTimeout(timer); }, [toast]);
+  const scoped = useMemo(() => orders.filter(o => period === "month" || o.day >= 24), [orders, period]);
+  const matching = scoped.filter(o => `${o.id} ${o.customer} ${o.channel}`.toLocaleLowerCase("es").includes(query.toLocaleLowerCase("es")) && (status === "Todos" || o.status === status));
+  const lowStock = products.filter(p => p.stock < p.minimum);
+  const pending = orders.filter(o => o.status === "Pendiente");
+  const navigate = (label: string) => { setActive(label); setMenuOpen(false); setQuery(""); setStatus("Todos"); mainRef.current?.focus(); };
+  function exportReport() {
+    const rows = ["Pedido;Cliente;Canal;Estado;Total ARS", ...scoped.map(o => `${o.id};${o.customer};${o.channel};${o.status};${o.amount}`)];
+    const url = URL.createObjectURL(new Blob(["\uFEFF" + rows.join("\r\n")], { type: "text/csv;charset=utf-8;" }));
+    const link = document.createElement("a"); link.href = url; link.download = `nexo-ventas-septiembre-${period}.csv`; link.click(); URL.revokeObjectURL(url); setToast("Reporte descargado con los pedidos del período.");
+  }
+  const nav = <><div className="sidebar-top"><div className="brand"><span className="brand-mark">n</span>NEXO<span className="brand-caption">gestión comercial</span></div></div><div className="workspace"><span className="workspace-icon">C</span><div><strong>Casa Olivia</strong><small>Objetos para habitar</small></div></div><p className="nav-label">TU NEGOCIO</p><nav aria-label="Navegación principal">{navigation.map(({label, icon: Icon}) => <button key={label} className={`nav-item ${active === label ? "active" : ""}`} aria-current={active === label ? "page" : undefined} onClick={() => navigate(label)}><Icon size={19}/><span>{label}</span>{label === "Inventario" && lowStock.length > 0 && <b>{lowStock.length}</b>}</button>)}</nav><div className="sidebar-bottom"><div className="sidebar-help"><strong>Menos planillas.<br/>Más tiempo para crecer.</strong><button onClick={() => { setMenuOpen(false); setModal("help"); }}>Explorar esta demo <ArrowUpRight size={15}/></button></div><div className="profile"><span className="avatar">VR</span><div><strong>Valentina Ríos</strong><small>Administradora</small></div><span className="online-dot"/></div></div></>;
+  return <div className="app-shell"><a className="skip-link" href="#main">Ir al contenido</a><aside className="sidebar">{nav}</aside>{menuOpen && <Dialog title="Tu espacio de trabajo" onClose={() => { setMenuOpen(false); requestAnimationFrame(() => menuRef.current?.focus()); }} className="navigation-dialog">{nav}</Dialog>}
+    <div className="main-content"><header className="topbar"><button ref={menuRef} className="icon-button menu-button" aria-label="Abrir navegación" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)}><Menu size={21}/></button><div className="breadcrumb">Casa Olivia <ChevronRight size={14}/><strong>{active}</strong></div><span className="demo-badge"><span/> Demo interactiva</span><button className="primary-button" onClick={() => setModal("sale")}><Plus size={18}/><span>Nueva venta</span></button></header>
+    <main id="main" ref={mainRef} tabIndex={-1} className="content"><div className="page-heading"><div><p className="eyebrow">{active === "Resumen" ? "EL PULSO DE TU NEGOCIO" : "GESTIÓN COMERCIAL"}</p><h1>{active === "Resumen" ? "Todo en orden, Valentina." : active}</h1><p className="description">{descriptions[active]}</p></div>{["Resumen", "Ventas", "Reportes"].includes(active) && <label className="period-field"><span>Período de consulta</span><select value={period} onChange={e => setPeriod(e.target.value)}><option value="month">Septiembre 2026</option><option value="week">24 – 30 de septiembre</option></select></label>}</div>
+    {active === "Resumen" && <><div className="context-line"><span><span className="online-dot"/> Casa Olivia · Tienda de decoración</span><span>Datos de ejemplo · Moneda ARS</span></div><Metrics list={scoped}/><div className="dashboard-grid"><SalesChart list={scoped} period={period}/><section className="panel attention-panel"><div className="panel-heading"><div><p className="eyebrow">TU PRÓXIMO PASO</p><h2>Necesita tu atención</h2></div><span className="attention-count">{pending.length + lowStock.length}</span></div><button className="attention-item" onClick={() => { navigate("Ventas"); setPeriod("month"); setStatus("Pendiente"); }}><span className="attention-icon"><CircleDollarSign size={20}/></span><div><strong>{pending.length} {pending.length === 1 ? "cobro pendiente" : "cobros pendientes"}</strong><p>{money(sum(pending))} por cobrar</p></div><ChevronRight size={18}/></button><button className="attention-item" onClick={() => navigate("Inventario")}><span className="attention-icon stock"><Boxes size={20}/></span><div><strong>{lowStock.length} productos con stock bajo</strong><p>Revisá la reposición sugerida</p></div><ChevronRight size={18}/></button><div className="daily-note"><Check size={16}/><span>Tu negocio, con información para decidir.</span></div></section></div><div className="dashboard-lower"><OrdersPanel list={scoped.slice(0,5)} onSelect={setSelected} onViewAll={() => navigate("Ventas")} compact/><section className="panel stock-panel"><div className="panel-heading"><div><p className="eyebrow">DISPONIBILIDAD</p><h2>Stock para revisar</h2></div><button className="icon-button" aria-label="Ver inventario" onClick={() => navigate("Inventario")}><ArrowUpRight size={18}/></button></div>{lowStock.length ? lowStock.slice(0,3).map(p => <div className="stock-item" key={p.sku}><ProductIcon category={p.category}/><div><strong>{p.name}</strong><small>Mínimo: {p.minimum} unidades</small></div><span className="stock-badge">{p.stock} u.</span></div>) : <Empty title="Stock al día" detail="Todos los productos superan el mínimo sugerido."/>}<button className="text-button stock-link" onClick={() => navigate("Inventario")}>Gestionar inventario <ArrowRight size={16}/></button></section></div></>}
+    {active === "Ventas" && <><Metrics list={scoped}/><div className="filter-bar"><SearchField value={query} onChange={setQuery} placeholder="Buscar pedido, cliente o canal"/><label className="status-filter"><SlidersHorizontal size={16}/><select aria-label="Filtrar por estado" value={status} onChange={e=>setStatus(e.target.value)}>{["Todos", "Pendiente", "Pagado", "Preparando", "Enviado"].map(s=><option key={s}>{s}</option>)}</select></label><span className="result-count" aria-live="polite">{matching.length} pedidos</span></div><OrdersPanel list={matching} onSelect={setSelected}/>{matching.length === 0 && <button className="secondary-button" onClick={()=>{setQuery("");setStatus("Todos");}}>Limpiar filtros</button>}</>}
+    {active === "Clientes" && <><div className="section-intro"><Users size={20}/><span>{new Set(orders.map(o=>o.customer)).size} clientes · Historial de septiembre</span></div><SearchField value={query} onChange={setQuery} placeholder="Buscar por nombre de cliente"/><div className="client-grid">{Array.from(new Set(orders.map(o=>o.customer))).filter(name=>name.toLowerCase().includes(query.toLowerCase())).map(name=>{ const history=orders.filter(o=>o.customer===name); return <article className="panel client-card" key={name}><span className="avatar">{history[0].initials}</span><h2>{name}</h2><span className="client-label">{history.length>1 ? "Cliente recurrente" : "Primera compra"}</span><dl><div><dt>Compras</dt><dd>{history.length}</dd></div><div><dt>Total comprado</dt><dd>{money(sum(history))}</dd></div></dl><button className="text-button" onClick={()=>{navigate("Ventas");setPeriod("month");setQuery(name);}}>Ver pedidos <ArrowRight size={16}/></button></article>;})}</div>{!orders.some(o=>o.customer.toLowerCase().includes(query.toLowerCase())) && <Empty title="No encontramos ese cliente" detail="Probá con otro nombre o borrá la búsqueda."/>}</>}
+    {(active === "Productos" || active === "Inventario") && <><div className="section-intro"><Package size={20}/><span>{products.length} productos en catálogo · {lowStock.length} por reponer</span></div><SearchField value={query} onChange={setQuery} placeholder="Buscar producto, categoría o código"/><div className="product-grid">{products.filter(p=>`${p.name} ${p.sku} ${p.category}`.toLowerCase().includes(query.toLowerCase())).map(p=><article className="panel product-card" key={p.sku}><div className="product-card-top"><ProductIcon category={p.category}/><span className={`status ${p.stock<p.minimum ? "status-pendiente" : "status-pagado"}`}>{p.stock<p.minimum ? "Stock bajo" : "Disponible"}</span></div><p className="eyebrow">{p.category} · {p.sku}</p><h2>{p.name}</h2><strong className="product-price">{money(p.price)}</strong><div className="stock-level"><span>{p.stock} unidades disponibles</span><span>Mín. {p.minimum}</span></div><meter min={0} max={Math.max(p.minimum*3,p.stock)} low={p.minimum} optimum={p.minimum*2} value={p.stock} aria-label={`Stock de ${p.name}`}/>{active === "Inventario" && <button className="secondary-button" disabled={p.stock>=p.minimum} onClick={()=>{setProducts(current=>current.map(item=>item.sku===p.sku ? {...item,stock:item.minimum*2} : item));setToast(`Reposición simulada: ${p.name} ahora tiene ${p.minimum*2} unidades.`);}}>{p.stock<p.minimum ? `Reponer ${p.minimum*2-p.stock} unidades` : "Stock suficiente"}</button>}</article>)}</div>{!products.some(p=>`${p.name} ${p.sku} ${p.category}`.toLowerCase().includes(query.toLowerCase())) && <Empty title="Sin productos para esta búsqueda" detail="Probá con el nombre, la categoría o el código."/>}{active === "Inventario" && <p className="demo-note">La reposición simula el ingreso de unidades. Los cambios duran mientras esta página esté abierta.</p>}</>}
+    {active === "Reportes" && <><Metrics list={scoped}/><div className="dashboard-grid"><SalesChart list={scoped} period={period}/><section className="panel"><div className="panel-heading"><div><p className="eyebrow">ORIGEN DE LOS PEDIDOS</p><h2>Ventas por canal</h2></div></div><div className="channels">{["Web","Tienda","WhatsApp"].map(channel=>{const total=sum(scoped.filter(o=>o.channel===channel));const percentage=sum(scoped)?Math.round(total/sum(scoped)*100):0;return <div key={channel}><div><strong>{channel}</strong><span>{money(total)} · {percentage}%</span></div><progress max={100} value={percentage} aria-label={`Participación de ${channel}`}/></div>;})}</div></section></div><section className="panel report-export"><div><h2>De los datos a las decisiones</h2><p>Descargá los pedidos del período para compartirlos con tu equipo.</p></div><button className="secondary-button" onClick={exportReport}><Download size={17}/> Exportar CSV</button></section></>}
+    <footer className="brand-footer"><span><strong>NEXO</strong> · Un negocio más claro.</span><span>Demo con datos ficticios <span className="footer-divider">/</span> Creada por <strong>Anduril Tech</strong></span></footer></main></div>
+    {modal === "sale" && <Dialog title="Nueva venta" onClose={()=>setModal(null)}><SaleForm products={products} onSave={(customer,sku,quantity,channel)=>{const product=products.find(p=>p.sku===sku)!;const order:Order={id:`#${Math.max(...orders.map(o=>Number(o.id.slice(1))))+1}`,customer,initials:customer.split(" ").slice(0,2).map(s=>s[0]).join("").toUpperCase(),amount:product.price*quantity,status:"Pendiente",date:"30 sep, nueva",day:30,channel};setOrders(current=>[order,...current]);setProducts(current=>current.map(p=>p.sku===sku?{...p,stock:p.stock-quantity}:p));setModal(null);navigate("Ventas");setToast(`Venta ${order.id} registrada. Stock actualizado; cobro pendiente.`);}}/></Dialog>}
+    {modal === "help" && <Dialog title="Tu negocio, conectado" onClose={()=>setModal(null)}><p className="dialog-description">Nexo reúne ventas, clientes y stock para una tienda de decoración. Explorá los pedidos, registrá una venta o simulá una reposición.</p><div className="info-box"><AlertCircle size={20}/><p>Esta demo usa datos ficticios de septiembre de 2026. Los cambios se mantienen durante esta sesión y se reinician al recargar. No se realizan cobros ni envíos.</p></div><button className="primary-button" onClick={()=>setModal(null)}>Empezar a explorar <ArrowRight size={17}/></button></Dialog>}
+    {selected && <Dialog title={`Pedido ${selected.id}`} onClose={()=>setSelected(null)}><div className="order-detail-top"><span className="avatar">{selected.initials}</span><div><h3>{selected.customer}</h3><p>{selected.date} · {selected.channel}</p></div><Status value={selected.status}/></div><dl className="detail-list"><div><dt>Total del pedido</dt><dd>{money(selected.amount)}</dd></div><div><dt>Canal de venta</dt><dd>{selected.channel}</dd></div><div><dt>Estado</dt><dd>{selected.status}</dd></div></dl><p className="demo-note">Los cambios de estado son demostrativos. No procesan pagos ni generan envíos.</p>{selected.status !== "Enviado" && <button className="primary-button" onClick={()=>{const next:OrderStatus=selected.status==="Pendiente"?"Pagado":selected.status==="Pagado"?"Preparando":"Enviado";setOrders(current=>current.map(o=>o.id===selected.id?{...o,status:next}:o));setSelected({...selected,status:next});setToast(`Pedido ${selected.id}: ${next.toLowerCase()}.`);}}>{selected.status==="Pendiente"?"Registrar cobro simulado":selected.status==="Pagado"?"Pasar a preparación":"Marcar como enviado"}<ArrowRight size={17}/></button>}</Dialog>}
+    {toast && <div className="toast" role="status"><Check size={19}/><span>{toast}</span><button aria-label="Cerrar aviso" onClick={()=>setToast("")}><X size={17}/></button></div>}
+  </div>;
 }
-
-function Dashboard({ query, ordersList }: { query: string; ordersList: typeof orders }) {
-  return <>
-    <div className="metric-grid">
-      <Metric icon={CircleDollarSign} label="Ventas netas" value="$ 2.480.600" change="12,8%" positive detail="vs. período anterior" />
-      <Metric icon={ShoppingBag} label="Pedidos" value="148" change="8,2%" positive detail="11 por completar" />
-      <Metric icon={Users} label="Clientes nuevos" value="36" change="4,1%" positive detail="62% recurrentes" />
-      <Metric icon={CreditCard} label="Ticket promedio" value="$ 16.761" change="2,4%" detail="vs. período anterior" />
-    </div>
-    <div className="dashboard-grid">
-      <section className="panel sales-panel">
-        <div className="panel-heading"><div><p>Rendimiento</p><h2>Ventas del período</h2></div><div className="legend"><i /> Ventas netas</div></div>
-        <div className="chart-summary"><strong>$ 2,48 M</strong><span><ArrowUpRight size={14} /> 12,8%</span></div>
-        <div className="chart" aria-label="Gráfico de ventas de los últimos doce meses">
-          <div className="grid-lines"><i /><i /><i /><i /></div>
-          <svg viewBox="0 0 660 170" preserveAspectRatio="none" role="img">
-            <defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#3e6fe8" stopOpacity=".22"/><stop offset="100%" stopColor="#3e6fe8" stopOpacity="0"/></linearGradient></defs>
-            <path d={`M ${sales.map((v,i) => `${i*60},${170-v}`).join(" L ")} L 660,170 L 0,170 Z`} fill="url(#fill)" />
-            <polyline points={sales.map((v,i) => `${i*60},${170-v}`).join(" ")} fill="none" stroke="#3e6fe8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <div className="months"><span>Oct</span><span>Dic</span><span>Feb</span><span>Abr</span><span>Jun</span><span>Ago</span></div>
-        </div>
-      </section>
-      <section className="panel stock-panel">
-        <div className="panel-heading"><div><p>Inventario</p><h2>Stock crítico</h2></div><button className="text-button">Ver todo <ArrowRight size={15} /></button></div>
-        <div className="stock-list">{products.map((product, index) => <div className="stock-item" key={product.sku}><div className={`product-image product-${index}`}><Package size={20}/></div><div><strong>{product.name}</strong><small>{product.sku} · {money(product.price)}</small></div><span>{product.stock} u.</span></div>)}</div>
-        <div className="stock-note"><Boxes size={17} /><span><strong>3 productos</strong> necesitan reposición esta semana.</span></div>
-      </section>
-    </div>
-    <section className="panel orders-panel">
-      <div className="panel-heading"><div><p>Actividad reciente</p><h2>Últimos pedidos</h2></div><button className="text-button">Ver ventas <ArrowRight size={15} /></button></div>
-      <div className="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Canal</th><th>Fecha</th><th>Estado</th><th className="align-right">Total</th></tr></thead><tbody>{ordersList.map((order) => <tr key={order.id}><td><strong className="order-id">{order.id}</strong></td><td><div className="customer"><span>{order.initials}</span><strong>{order.customer}</strong></div></td><td>{order.channel}</td><td>{order.date}</td><td><Status value={order.status} /></td><td className="align-right"><strong>{money(order.amount)}</strong></td></tr>)}</tbody></table>{ordersList.length === 0 && <EmptySearch query={query} />}</div>
-    </section>
-  </>;
-}
-
-function Metric({ icon: Icon, label, value, change, positive, detail }: { icon: typeof Users; label: string; value: string; change: string; positive?: boolean; detail: string }) {
-  return <article className="metric"><div className="metric-top"><span><Icon size={18} /></span><small>{label}</small></div><strong>{value}</strong><div className={positive ? "positive" : "negative"}>{positive ? <ArrowUpRight size={14}/> : <ArrowDownRight size={14}/>} {change}<em>{detail}</em></div></article>;
-}
-
-function ModuleView({ active, query }: { active: string; query: string }) {
-  const iconMap = { Ventas: ShoppingBag, Clientes: Users, Productos: Package, Inventario: Boxes, Reportes: BarChart3 };
-  const Icon = iconMap[active as keyof typeof iconMap] || FileText;
-  if (active === "Ventas") return <section className="panel orders-panel module"><div className="panel-heading"><div><p>Todos los canales</p><h2>Pedidos recientes</h2></div><button className="secondary-button"><Plus size={16}/> Crear pedido</button></div><div className="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Canal</th><th>Fecha</th><th>Estado</th><th className="align-right">Total</th></tr></thead><tbody>{orders.filter(o => `${o.id} ${o.customer}`.toLowerCase().includes(query.toLowerCase())).map(order => <tr key={order.id}><td><strong className="order-id">{order.id}</strong></td><td><div className="customer"><span>{order.initials}</span><strong>{order.customer}</strong></div></td><td>{order.channel}</td><td>{order.date}</td><td><Status value={order.status}/></td><td className="align-right"><strong>{money(order.amount)}</strong></td></tr>)}</tbody></table></div></section>;
-  return <section className="panel module-placeholder"><div className="placeholder-icon"><Icon size={27}/></div><p>Módulo conectado</p><h2>{active} listo para explorar</h2><span>Esta vista demuestra una arquitectura modular. El MVP prioriza el tablero y el flujo de ventas; este módulo se ampliaría según las reglas reales del negocio.</span><button className="secondary-button"><Plus size={16}/> Agregar registro</button></section>;
-}
-
-function EmptySearch({ query }: { query: string }) { return <div className="empty"><Search size={22}/><strong>Sin resultados</strong><span>No encontramos pedidos para “{query}”.</span></div>; }
+function Metrics({list}:{list:Order[]}) {const pending=list.filter(o=>o.status==="Pendiente");return <div className="metric-grid">{[{label:"Ventas del período",value:money(sum(list)),detail:"Importe total de pedidos",icon:CircleDollarSign},{label:"Pedidos recibidos",value:String(list.length).padStart(2,"0"),detail:`${list.filter(o=>o.status==="Preparando").length} en preparación`,icon:ShoppingBag},{label:"Por cobrar",value:money(sum(pending)),detail:`${pending.length} ${pending.length===1?"pedido pendiente":"pedidos pendientes"}`,icon:CircleDollarSign},{label:"Ticket promedio",value:money(list.length?sum(list)/list.length:0),detail:"Promedio por pedido",icon:BarChart3}].map(({label,value,detail,icon:Icon},index)=><article className={`metric metric-${index}`} key={label}><div className="metric-top"><span>{label}</span><Icon size={18}/></div><strong>{value}</strong><small>{detail}</small></article>)}</div>;}
+function SalesChart({list,period}:{list:Order[];period:string}) {const ranges=period==="month"?[[1,7],[8,14],[15,21],[22,30]]:[[24,25],[26,27],[28,29],[30,30]];const values=ranges.map(([start,end])=>sum(list.filter(o=>o.day>=start&&o.day<=end)));const max=Math.max(...values,1);return <section className="panel sales-panel"><div className="panel-heading"><div><p className="eyebrow">RENDIMIENTO</p><h2>Así se mueven tus ventas</h2></div><span className="legend"><i/> Pedidos en ARS</span></div><div className="chart-summary"><strong>{money(sum(list))}</strong><span>{period==="month"?"1 – 30 sep":"24 – 30 sep"}</span></div><div className="bar-chart" role="img" aria-label={`Ventas por tramo de septiembre: ${ranges.map((r,i)=>`${r[0]} al ${r[1]}: ${money(values[i])}`).join("; ")}`}><div className="chart-bars">{values.map((v,i)=><div className="bar-column" key={i}><span>{money(v)}</span><div className="bar-track"><div className={`bar bar-${i}`} style={{height:`${Math.max(v/max*100,2)}%`}}/></div><small>{ranges[i][0]===ranges[i][1]?ranges[i][0]:`${ranges[i][0]}–${ranges[i][1]}`} sep</small></div>)}</div></div></section>;}
+function OrdersPanel({list,onSelect,onViewAll,compact=false}:{list:Order[];onSelect:(order:Order)=>void;onViewAll?:()=>void;compact?:boolean}) {return <section className={`panel orders-panel ${compact?"compact-orders":""}`}><div className="panel-heading"><div><p className="eyebrow">{compact?"ACTIVIDAD RECIENTE":"SEGUIMIENTO COMERCIAL"}</p><h2>{compact?"Últimos pedidos":"Pedidos del período"}</h2></div>{onViewAll&&<button className="text-button" onClick={onViewAll}>Ver todos <ArrowRight size={15}/></button>}</div>{list.length ? <div className="orders-list"><div className="order-head" aria-hidden="true"><span>Pedido / Cliente</span><span>Canal</span><span>Estado</span><span>Total</span><span/></div>{list.map(order=><button key={order.id} className="order-row" aria-label={`Ver pedido ${order.id} de ${order.customer}`} onClick={()=>onSelect(order)}><div className="order-customer"><span className="avatar">{order.initials}</span><div><strong>{order.customer}</strong><small>{order.id} · {order.date}</small></div></div><span className="order-channel">{order.channel}</span><Status value={order.status}/><strong className="order-amount">{money(order.amount)}</strong><ChevronRight className="order-chevron" size={16}/></button>)}</div>:<Empty title="No hay pedidos para mostrar" detail="Probá otro estado, búsqueda o período."/>}</section>;}
+function SearchField({value,onChange,placeholder}:{value:string;onChange:(value:string)=>void;placeholder:string}) {return <div className="search"><Search size={18}/><input aria-label={placeholder} placeholder={placeholder} value={value} onChange={e=>onChange(e.target.value)}/>{value&&<button className="icon-button" aria-label="Borrar búsqueda" onClick={()=>onChange("")}><X size={16}/></button>}</div>;}
+function Empty({title,detail}:{title:string;detail:string}) {return <div className="empty" role="status"><Search size={25}/><strong>{title}</strong><p>{detail}</p></div>;}
+function Dialog({title,onClose,children,className=""}:{title:string;onClose:()=>void;children:ReactNode;className?:string}) {const ref=useRef<HTMLDialogElement>(null);useEffect(()=>{const prior=document.activeElement as HTMLElement|null;const dialog=ref.current;dialog?.showModal();const overflow=document.body.style.overflow;document.body.style.overflow="hidden";return()=>{document.body.style.overflow=overflow;dialog?.close();prior?.focus();};},[]);return <dialog ref={ref} className={`dialog ${className}`} aria-label={title} onCancel={e=>{e.preventDefault();onClose();}} onClick={e=>{if(e.target===e.currentTarget){const rect=e.currentTarget.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)onClose();}}}><div className="dialog-heading"><h2>{title}</h2><button className="icon-button" aria-label="Cerrar ventana" onClick={onClose}><X size={20}/></button></div>{children}</dialog>;}
+function SaleForm({products,onSave}:{products:typeof initialProducts;onSave:(customer:string,sku:string,quantity:number,channel:Order["channel"])=>void}) {const [customer,setCustomer]=useState("");const [sku,setSku]=useState(products[0].sku);const [quantity,setQuantity]=useState(1);const [channel,setChannel]=useState<Order["channel"]>("Tienda");const [error,setError]=useState("");const product=products.find(p=>p.sku===sku)!;return <form className="sale-form" onSubmit={e=>{e.preventDefault();if(customer.trim().length<2){setError("Ingresá un nombre de al menos 2 caracteres.");return;}if(!Number.isInteger(quantity)||quantity<1||quantity>product.stock){setError(`Elegí entre 1 y ${product.stock} unidades disponibles.`);return;}onSave(customer.trim(),sku,quantity,channel);}}><p className="dialog-description">Registrá un pedido y reservá sus unidades en stock.</p><label>Cliente<input autoComplete="off" required maxLength={60} value={customer} onChange={e=>setCustomer(e.target.value)} placeholder="Nombre o razón social"/></label><label>Producto<select value={sku} onChange={e=>{setSku(e.target.value);setQuantity(1);setError("");}}>{products.map(p=><option key={p.sku} value={p.sku} disabled={p.stock===0}>{p.name} · {money(p.price)}</option>)}</select></label><div className="form-columns"><label>Cantidad<input type="number" min={1} max={product.stock} required value={quantity} onChange={e=>setQuantity(Number(e.target.value))}/><small>{product.stock} unidades disponibles</small></label><label>Canal<select value={channel} onChange={e=>setChannel(e.target.value as Order["channel"])}><option>Tienda</option><option>Web</option><option>WhatsApp</option></select></label></div><div className="sale-total"><span>Total en ARS</span><strong>{money(product.price*quantity)}</strong></div>{error&&<p className="form-error" role="alert">{error}</p>}<p className="demo-note">Venta de prueba · Se registra como pendiente de cobro. No se procesa ningún pago.</p><button className="primary-button" type="submit" disabled={product.stock===0}><Check size={18}/> Registrar venta</button></form>;}
